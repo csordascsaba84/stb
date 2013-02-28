@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="query_result">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="status"/>
+        <xs:choice>
+          <xs:element minOccurs="0" maxOccurs="unbounded" ref="channel"/>
+          <xs:element minOccurs="0" maxOccurs="unbounded" ref="event"/>
+          <xs:element minOccurs="0" maxOccurs="unbounded" ref="schedule"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+<xs:element name="status">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="message"/>
+      </xs:sequence>
+<xs:attribute name="code" use="required" type="xs:int">
+        <xs:annotation>
+          <xs:documentation>Error codes:
+0: Success
+1: Can't browse the channel database (please run a scan)
+2: Error while browsing online EPG (online EPG not enabled on that box)
+3: Error while browsing DVB EPG (also used as a fallback when attempting
+   to browse "any" EPG, as online EPG will have been tried first)
+4: Missing mandatory parameter (message contains its name).
+5: Wrong parameter type or value (message contains its 
+name).</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+<xs:element name="message" type="xs:string"/>
+<xs:element name="channel">
+    <xs:complexType>
+      <xs:attributeGroup ref="object_id"/>
+      <xs:attribute name="name" use="required"/>
+      <xs:attribute name="logical_channel_number" use="required"
+type="xs:int"/>
+      <xs:attribute name="online_epg" use="required" type="xs:boolean"/>
+      <xs:attribute name="hidden" use="required" type="xs:boolean"/>
+      <xs:attribute name="locked" use="required" type="xs:boolean"/>
+      <xs:attributeGroup ref="recording_schedule_info"/>
+      <xs:attribute name="logo" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="event">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="presenter"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="actor"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="guest"/>
+        <xs:element minOccurs="0" ref="summary"/>
+        <xs:element minOccurs="0" ref="detailed_description"/>
+      </xs:sequence>
+<xs:attributeGroup ref="object_id"/>
+      <xs:attribute name="name" use="required"/>
+      <xs:attribute name="channel_id" use="required">
+        <xs:annotation>
+          <xs:documentation>Wymedia ID of the channel this event belongs 
+to.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+<xs:attribute name="scheduled_start_time" use="required"
+type="timestamp"/>
+      <xs:attribute name="scheduled_end_time" use="required" type="timestamp"/>
+      <xs:attribute name="source" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="dvb"/>
+            <xs:enumeration value="online"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+<xs:attribute name="maturity_rating" use="required" type="xs:int"/>
+      <xs:attribute name="channel_maturity_rating" type="xs:int"/>
+      <xs:attributeGroup ref="recording_schedule_info"/>
+      <xs:attribute name="genre"/>
+      <xs:attribute name="ugcs_category"/>
+      <xs:attribute name="ugcs_content"/>
+      <xs:attribute name="ugcs_type"/>
+      <xs:attribute name="dvb_content_type"/>
+      <xs:attribute name="audio_tracks" type="xs:int"/>
+      <xs:attribute name="audio_hard_of_hearing" type="xs:boolean"/>
+      <xs:attribute name="audio_visually_impaired" type="xs:boolean"/>
+      <xs:attribute name="subtitle_tracks" type="xs:int"/>
+      <xs:attribute name="subtitles_hard_of_hearing" type="xs:boolean"/>
+      <xs:attribute name="director"/>
+      <xs:attribute name="country_of_production"/>
+      <xs:attribute name="year_of_production" type="xs:int"/>
+      <xs:attribute name="episode_title"/>
+      <xs:attribute name="episode_number" type="xs:int"/>
+      <xs:attribute name="season_number" type="xs:int"/>
+      <xs:attribute name="part_number" type="xs:int"/>
+      <xs:attribute name="total_parts" type="xs:int"/>
+      <xs:attribute name="dolby_digital" type="xs:boolean"/>
+      <xs:attribute name="pay_per_view" type="xs:boolean"/>
+      <xs:attribute name="scrambled" type="xs:boolean"/>
+      <xs:attribute name="hd" type="xs:boolean"/>
+      <xs:attribute name="widescreen" type="xs:boolean"/>
+      <xs:attribute name="thumbnail" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+<xs:element name="presenter">
+    <xs:complexType>
+      <xs:attribute name="name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+<xs:element name="actor">
+    <xs:complexType>
+      <xs:attribute name="name" use="required"/>
+      <xs:attribute name="role"/>
+    </xs:complexType>
+  </xs:element>
+<xs:element name="guest">
+    <xs:complexType>
+      <xs:attribute name="name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+<xs:element name="summary" type="xs:string"/>
+  <xs:element name="detailed_description" type="xs:string"/>
+  <xs:element name="schedule">
+    <xs:complexType>
+      <xs:attribute name="id" use="required"/>
+      <xs:attribute name="name"/>
+      <xs:attribute name="channel_id"/>
+      <xs:attribute name="scheduled_start_time" type="timestamp"/>
+      <xs:attribute name="scheduled_end_time" type="timestamp"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:attributeGroup name="object_id">
+    <xs:annotation>
+      <xs:documentation>STB internal object identifier
+May be an integer, but very often isn't (e.g. online EPG identifiers).
+Be careful to treat it like the string it is!</xs:documentation>
+    </xs:annotation>
+<xs:attribute name="id" use="required"/>
+  </xs:attributeGroup>
+<xs:simpleType name="timestamp">
+    <xs:annotation>
+      <xs:documentation>UNIX UTC timestamp.
+Number of seconds since 1970-01-01 00:00:00 UTC</xs:documentation>
+    </xs:annotation>
+<xs:restriction base="xs:integer"/>
+  </xs:simpleType>
+<xs:attributeGroup name="recording_schedule_info">
+    <xs:annotation>
+      <xs:documentation>Recording information. schedule_id is only specified
+when record_status is true.</xs:documentation>
+</xs:annotation>
+<xs:attribute name="record_status" use="required" type="xs:boolean"/>
+    <xs:attribute name="schedule_id"/>
+  </xs:attributeGroup>
+  </xs:schema>

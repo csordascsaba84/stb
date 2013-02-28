@@ -10,7 +10,7 @@
 
 @class DetailViewController;
 
-@interface MasterViewController : UITableViewController
+@interface MasterViewController : UITableViewController<NSXMLParserDelegate>
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
 

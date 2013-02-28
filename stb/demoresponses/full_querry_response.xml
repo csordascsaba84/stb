@@ -1,0 +1,14 @@
+<query_result>
+    <status code="123">
+        <message>str1234</message>
+    </status>
+    <channel id="???" name="???" logical_channel_number="123" online_epg="true" hidden="true" locked="true" record_status="true" schedule_id="???" logo="http://www.xsd2xml.com" />
+    <event id="???" name="???" channel_id="???" scheduled_start_time="1234" scheduled_end_time="1234" source="dvb" maturity_rating="123" channel_maturity_rating="123" record_status="true" schedule_id="???" genre="???" ugcs_category="???" ugcs_content="???" ugcs_type="???" dvb_content_type="???" audio_tracks="123" audio_hard_of_hearing="true" audio_visually_impaired="true" subtitle_tracks="123" subtitles_hard_of_hearing="true" director="???" country_of_production="???" year_of_production="123" episode_title="???" episode_number="123" season_number="123" part_number="123" total_parts="123" dolby_digital="true" pay_per_view="true" scrambled="true" hd="true" widescreen="true" thumbnail="http://www.xsd2xml.com">
+        <presenter name="???" />
+        <actor name="???" role="???" />
+        <guest name="???" />
+        <summary>str1234</summary>
+        <detailed_description>str1234</detailed_description>
+    </event>
+    <schedule id="???" name="???" channel_id="???" scheduled_start_time="1234" scheduled_end_time="1234" />
+</query_result>

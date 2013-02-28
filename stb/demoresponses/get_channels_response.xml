@@ -1,0 +1,7 @@
+<query_result>
+	<status code="0" />
+	<channel id="1" name="RaiUno" logical_channel_number="1" online_epg="true" hidden="false" locked="false" record_status="false" />
+	<channel id="2" name="RaiDue" logical_channel_number="2" online_epg="true" hidden="false" locked="false" record_status="true" schedule_id="1342" />
+</query_result>
+
+
