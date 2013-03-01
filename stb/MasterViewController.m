@@ -9,6 +9,9 @@
 #import "MasterViewController.h"
 #import <AFNetworking/AFXMLRequestOperation.h>
 #import <OHHTTPStubs/OHHTTPStubs.h>
+#import "ChannelsCell.h"
+#import "UIImageView+AFNetworking.h"
+#import "Channel.h"
 
 #import "DetailViewController.h"
 
@@ -48,7 +51,7 @@
         }
 
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithFile:@"get_channels_response.xml" contentType:@"application/xml" responseTime:1.0f];
+        return [OHHTTPStubsResponse responseWithFile:@"full_querry_response.xml" contentType:@"application/xml" responseTime:1.0f];
     }];
 }
 
@@ -77,8 +80,8 @@
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict{
 
     if([elementName isEqualToString:@"channel"]){
-        [_objects addObject:attributeDict];
-        NSLog(@"%@", attributeDict);
+        Channel *channel = [[Channel alloc] initWithAttributes:attributeDict];
+        [_objects addObject:channel];
     }
 }
 
@@ -101,9 +104,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    ChannelsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     NSLog(@"%@", [[_objects objectAtIndex:indexPath.row] valueForKey:@"name"]);
-    cell.textLabel.text = [[_objects objectAtIndex:indexPath.row] valueForKey:@"name"];
+    
+    Channel *channel = [_objects objectAtIndex:indexPath.row];
+    
+    cell.channelName.text = channel.name;
+    [cell.channelLogo setImageWithURL:channel.logo placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
     
     return cell;
 }

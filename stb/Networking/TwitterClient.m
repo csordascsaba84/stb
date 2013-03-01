@@ -11,14 +11,14 @@
 
 @implementation TwitterClient
 
-static NSString * const kAFAppDotNetAPIBaseURLString = @"http://search.twitter.com/";
+static NSString * const kTwitterAPIBaseURLString = @"http://search.twitter.com/";
 
 + (TwitterClient *)sharedClient
 {
     static TwitterClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[TwitterClient alloc] initWithBaseURL:[NSURL URLWithString:kAFAppDotNetAPIBaseURLString]];
+        _sharedClient = [[TwitterClient alloc] initWithBaseURL:[NSURL URLWithString:kTwitterAPIBaseURLString]];
     });
     
     return _sharedClient;

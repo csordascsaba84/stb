@@ -48,6 +48,10 @@
 		48F64A8916E0055B003CC64C /* AwesomeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F64A8616E0055B003CC64C /* AwesomeMenu.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		48F64A8A16E0055B003CC64C /* AwesomeMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F64A8816E0055B003CC64C /* AwesomeMenuItem.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		48F64A8C16E00675003CC64C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48F64A8B16E00675003CC64C /* QuartzCore.framework */; };
+		48F64A8F16E0EF3C003CC64C /* ChannelsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F64A8E16E0EF3C003CC64C /* ChannelsCell.m */; };
+		48F64A9216E0EFED003CC64C /* Channel.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F64A9116E0EFED003CC64C /* Channel.m */; };
+		48F64A9516E0F00E003CC64C /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F64A9416E0F00E003CC64C /* Event.m */; };
+		48F64A9816E0FFB1003CC64C /* STBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F64A9716E0FFB1003CC64C /* STBClient.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -104,6 +108,14 @@
 		48F64A8716E0055B003CC64C /* AwesomeMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwesomeMenuItem.h; sourceTree = "<group>"; };
 		48F64A8816E0055B003CC64C /* AwesomeMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AwesomeMenuItem.m; sourceTree = "<group>"; };
 		48F64A8B16E00675003CC64C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		48F64A8D16E0EF3C003CC64C /* ChannelsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelsCell.h; sourceTree = "<group>"; };
+		48F64A8E16E0EF3C003CC64C /* ChannelsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelsCell.m; sourceTree = "<group>"; };
+		48F64A9016E0EFED003CC64C /* Channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Channel.h; sourceTree = "<group>"; };
+		48F64A9116E0EFED003CC64C /* Channel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Channel.m; sourceTree = "<group>"; };
+		48F64A9316E0F00E003CC64C /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		48F64A9416E0F00E003CC64C /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
+		48F64A9616E0FFB1003CC64C /* STBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STBClient.h; path = Networking/STBClient.h; sourceTree = "<group>"; };
+		48F64A9716E0FFB1003CC64C /* STBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STBClient.m; path = Networking/STBClient.m; sourceTree = "<group>"; };
 		BFFD48205B174C8D9FC024F2 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -205,6 +217,8 @@
 			children = (
 				48F64A5316DFF8D8003CC64C /* TwitterClient.h */,
 				48F64A5416DFF8D8003CC64C /* TwitterClient.m */,
+				48F64A9616E0FFB1003CC64C /* STBClient.h */,
+				48F64A9716E0FFB1003CC64C /* STBClient.m */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -216,6 +230,10 @@
 				48F64A5816DFF9B5003CC64C /* Post.m */,
 				48F64A5916DFF9B5003CC64C /* User.h */,
 				48F64A5A16DFF9B5003CC64C /* User.m */,
+				48F64A9016E0EFED003CC64C /* Channel.h */,
+				48F64A9116E0EFED003CC64C /* Channel.m */,
+				48F64A9316E0F00E003CC64C /* Event.h */,
+				48F64A9416E0F00E003CC64C /* Event.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -225,6 +243,8 @@
 			children = (
 				48F64A5E16DFFE6A003CC64C /* PostTableViewCell.h */,
 				48F64A5F16DFFE6A003CC64C /* PostTableViewCell.m */,
+				48F64A8D16E0EF3C003CC64C /* ChannelsCell.h */,
+				48F64A8E16E0EF3C003CC64C /* ChannelsCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -386,6 +406,10 @@
 				48F64A6016DFFE6A003CC64C /* PostTableViewCell.m in Sources */,
 				48F64A8916E0055B003CC64C /* AwesomeMenu.m in Sources */,
 				48F64A8A16E0055B003CC64C /* AwesomeMenuItem.m in Sources */,
+				48F64A8F16E0EF3C003CC64C /* ChannelsCell.m in Sources */,
+				48F64A9216E0EFED003CC64C /* Channel.m in Sources */,
+				48F64A9516E0F00E003CC64C /* Event.m in Sources */,
+				48F64A9816E0FFB1003CC64C /* STBClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
