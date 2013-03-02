@@ -13,7 +13,7 @@ NSString * const kChannelImageDidLoadNotification = @"eu.reply.channel.image.loa
 
 @interface Channel ()
 
-@property (readwrite) NSUInteger channelID;
+@property (readwrite) NSString *channelID;
 @property (readwrite) NSString *name;
 @property (readwrite) NSUInteger logical_channel_number;
 @property (readwrite) BOOL online_epg;
@@ -33,13 +33,14 @@ NSString * const kChannelImageDidLoadNotification = @"eu.reply.channel.image.loa
 {
     self = [super init];
     if (self) {
-        self.channelID = [[attributes valueForKey:@"id"]integerValue];
+        self.channelID = [attributes valueForKey:@"id"];
         self.name = [attributes valueForKey:@"name"];
         self.logical_channel_number = [[attributes valueForKey:@"logical_channel_number"] integerValue];
         self.online_epg = [[attributes valueForKey:@"online_epg"] isEqualToString:@"false"]?NO:YES;
         self.hidden = [[attributes valueForKey:@"hidden"] isEqualToString:@"false"]?NO:YES;
         self.locked = [[attributes valueForKey:@"locked"] isEqualToString:@"false"]?NO:YES;
         self.schedule_id = [[attributes valueForKey:@"schedule_id"] integerValue];
+        NSLog(@"Logo url: %@", [attributes valueForKey:@"logo"]);
         self.logo = [NSURL URLWithString:[attributes valueForKey:@"logo"]];
     }
     return self;

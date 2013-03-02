@@ -38,6 +38,24 @@
                                     <outlet property="delegate" destination="4" id="AJf-JK-Bpy"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9C2-HW-Jes">
+                                <rect key="frame" x="367" y="20" width="303" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RFG-oY-dA1">
+                                <rect key="frame" x="367" y="266" width="316" height="233"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="9Rj-Db-RsN">
+                                <rect key="frame" x="367" y="63" width="303" height="177"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -48,7 +66,12 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="cQW-ZV-Kl6"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="eventImage" destination="9Rj-Db-RsN" id="P79-Hv-h2I"/>
+                        <outlet property="eventSummary" destination="RFG-oY-dA1" id="GdB-5k-Sj3"/>
+                        <outlet property="eventTitle" destination="9C2-HW-Jes" id="yaS-jW-UzO"/>
                         <outlet property="tableView" destination="jkC-MT-Mpc" id="PYN-xC-IpF"/>
+                        <segue destination="hlZ-Ld-Ovl" kind="push" identifier="showSpotify" id="25v-Qk-6hX"/>
+                        <segue destination="qQY-eG-BOb" kind="push" identifier="showQuiz" id="CyC-QK-0H6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="15" sceneMemberID="firstResponder"/>
@@ -89,7 +112,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="DCo-pb-lIG">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="DCo-pb-lIG">
                                             <rect key="frame" x="14" y="10" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
@@ -137,6 +160,58 @@
             </objects>
             <point key="canvasLocation" x="-542" y="588"/>
         </scene>
+        <!--Spotify Web View Controller-->
+        <scene sceneID="zY3-ff-RFF">
+            <objects>
+                <viewController id="hlZ-Ld-Ovl" customClass="SpotifyWebViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ndh-8W-fl4">
+                        <rect key="frame" x="0.0" y="64" width="703" height="704"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView multipleTouchEnabled="YES" contentMode="scaleToFill" scalesPageToFit="YES" id="rCx-Nl-T7R">
+                                <rect key="frame" x="0.0" y="0.0" width="703" height="704"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="DNE-R8-41P"/>
+                    <connections>
+                        <outlet property="webView" destination="rCx-Nl-T7R" id="ZRj-k5-2eO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sqT-zd-6ix" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1154" y="568"/>
+        </scene>
+        <!--Quiz View Controller-->
+        <scene sceneID="1bH-VV-5fx">
+            <objects>
+                <viewController id="qQY-eG-BOb" customClass="QuizViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eTf-Tj-cch">
+                        <rect key="frame" x="0.0" y="64" width="703" height="704"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView multipleTouchEnabled="YES" contentMode="scaleToFill" scalesPageToFit="YES" id="h2u-bJ-NKh">
+                                <rect key="frame" x="0.0" y="0.0" width="703" height="704"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Jmq-SM-ftd"/>
+                    <connections>
+                        <outlet property="webView" destination="h2u-bJ-NKh" id="IjB-02-CUW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D4i-s8-ajQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1142" y="1544"/>
+        </scene>
     </scenes>
     <classes>
         <class className="ChannelsCell" superclassName="UITableViewCell">
@@ -150,12 +225,24 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="detailDescriptionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="eventImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="eventSummary" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="eventTitle" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="menu" candidateClass="UIView"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
         <class className="MasterViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MasterViewController.h"/>
+        </class>
+        <class className="QuizViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/QuizViewController.h"/>
+        </class>
+        <class className="SpotifyWebViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SpotifyWebViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
+            </relationships>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

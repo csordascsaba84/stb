@@ -10,7 +10,7 @@
 
 @interface Channel : NSObject
 
-@property (readonly) NSUInteger channelID;
+@property (readonly) NSString *channelID;
 @property (readonly) NSString *name;
 @property (readonly) NSUInteger logical_channel_number;
 @property (readonly) BOOL online_epg;

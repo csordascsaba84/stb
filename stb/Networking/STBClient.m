@@ -11,7 +11,8 @@
 
 @implementation STBClient
 
-static NSString * const kSTBAPIBaseURLString = @"http://search.twitter.com/";
+//static NSString * const kSTBAPIBaseURLString = @"http://192.168.0.100";
+static NSString * const kSTBAPIBaseURLString = @"http://192.168.43.75";
 
 +(STBClient *)sharedClient
 {
@@ -31,11 +32,44 @@ static NSString * const kSTBAPIBaseURLString = @"http://search.twitter.com/";
     }
     
     [self registerHTTPOperationClass:[AFXMLRequestOperation class]];
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
+    [self setDefaultHeader:@"Accept" value:@"application/xml"];
     
     return self;
 }
 
+-(NSMutableURLRequest *) getChannel:(NSDictionary *)parameters
+{
+    NSMutableURLRequest *request = nil;
+    
+    request = [self requestWithMethod:@"POST" path:@"query" parameters:parameters];
+    
+    NSLog(@"Request URL: %@", request.URL);
+    
+    return request;
+}
 
+-(NSMutableURLRequest *) tuneToChannel:(NSDictionary *)parameters
+{
+    NSMutableURLRequest *request = nil;
+    request = [self requestWithMethod:@"GET" path:@"tune" parameters:parameters];
+    
+    return request;
+}
+
+-(NSMutableURLRequest *) getCurrentChannel:(NSDictionary *)pararmeters
+{
+    NSMutableURLRequest *request = nil;
+    NSDictionary *dict;
+    request = [self requestWithMethod:@"GET" path:@"current_channel" parameters:dict];
+    
+    return request;
+}
+
+-(NSMutableURLRequest *) getEPG:(NSDictionary *)pararmeters
+{
+    NSMutableURLRequest *request = nil;
+    request = [self requestWithMethod:@"POST" path:@"query" parameters:pararmeters];
+    return request;
+}
 
 @end

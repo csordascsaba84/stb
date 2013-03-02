@@ -10,7 +10,7 @@
 
 @interface Event : NSObject
 
-@property (nonatomic) NSUInteger eventID;
+@property (nonatomic, strong) NSString *eventID;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic) NSUInteger channelID;
 @property (nonatomic) NSUInteger scheduled_start_time;
@@ -28,11 +28,13 @@
 @property (nonatomic, strong) NSString *guest;
 @property (nonatomic, strong) NSString *summary;
 @property (nonatomic, strong) NSString *detailed_description;
-@property (nonatomic) NSUInteger year_of_production;
+@property (nonatomic, strong) NSString  *year_of_production;
 @property (nonatomic) NSUInteger episode_number;
 @property (nonatomic) NSUInteger season_number;
 @property (nonatomic) NSUInteger part_number;
 @property (nonatomic) NSUInteger total_parts;
 @property (nonatomic) NSUInteger subtitle_tracks;
+
+-(id)initEventWithResponse:(NSDictionary *)response;
 
 @end

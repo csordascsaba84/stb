@@ -52,6 +52,11 @@
 		48F64A9216E0EFED003CC64C /* Channel.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F64A9116E0EFED003CC64C /* Channel.m */; };
 		48F64A9516E0F00E003CC64C /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F64A9416E0F00E003CC64C /* Event.m */; };
 		48F64A9816E0FFB1003CC64C /* STBClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F64A9716E0FFB1003CC64C /* STBClient.m */; };
+		48F64A9B16E222E8003CC64C /* SpotifyWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F64A9A16E222E5003CC64C /* SpotifyWebViewController.m */; };
+		48F64A9D16E26E0E003CC64C /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48F64A9C16E26E0E003CC64C /* Social.framework */; };
+		48F64AA016E2B08B003CC64C /* game2.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F64A9E16E2B08A003CC64C /* game2.png */; };
+		48F64AA116E2B08B003CC64C /* spotifyLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 48F64A9F16E2B08A003CC64C /* spotifyLogo.png */; };
+		48F64AA416E2B1BE003CC64C /* QuizViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F64AA316E2B1BA003CC64C /* QuizViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -116,6 +121,13 @@
 		48F64A9416E0F00E003CC64C /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		48F64A9616E0FFB1003CC64C /* STBClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = STBClient.h; path = Networking/STBClient.h; sourceTree = "<group>"; };
 		48F64A9716E0FFB1003CC64C /* STBClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = STBClient.m; path = Networking/STBClient.m; sourceTree = "<group>"; };
+		48F64A9916E222E4003CC64C /* SpotifyWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpotifyWebViewController.h; sourceTree = "<group>"; };
+		48F64A9A16E222E5003CC64C /* SpotifyWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpotifyWebViewController.m; sourceTree = "<group>"; };
+		48F64A9C16E26E0E003CC64C /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		48F64A9E16E2B08A003CC64C /* game2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game2.png; sourceTree = "<group>"; };
+		48F64A9F16E2B08A003CC64C /* spotifyLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spotifyLogo.png; sourceTree = "<group>"; };
+		48F64AA216E2B1B9003CC64C /* QuizViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuizViewController.h; sourceTree = "<group>"; };
+		48F64AA316E2B1BA003CC64C /* QuizViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuizViewController.m; sourceTree = "<group>"; };
 		BFFD48205B174C8D9FC024F2 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -124,6 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48F64A9D16E26E0E003CC64C /* Social.framework in Frameworks */,
 				48F64A8C16E00675003CC64C /* QuartzCore.framework in Frameworks */,
 				48F64A2216DEA1A8003CC64C /* UIKit.framework in Frameworks */,
 				48F64A2416DEA1A8003CC64C /* Foundation.framework in Frameworks */,
@@ -156,6 +169,7 @@
 		48F64A2016DEA1A8003CC64C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				48F64A9C16E26E0E003CC64C /* Social.framework */,
 				48F64A8B16E00675003CC64C /* QuartzCore.framework */,
 				48F64A2116DEA1A8003CC64C /* UIKit.framework */,
 				48F64A2316DEA1A8003CC64C /* Foundation.framework */,
@@ -177,10 +191,14 @@
 				48F64A3116DEA1A8003CC64C /* AppDelegate.m */,
 				48F64A3916DEA1A9003CC64C /* MainStoryboard.storyboard */,
 				48F64A3C16DEA1A9003CC64C /* MasterViewController.h */,
+				48F64A2816DEA1A8003CC64C /* Supporting Files */,
 				48F64A3D16DEA1A9003CC64C /* MasterViewController.m */,
+				48F64A9916E222E4003CC64C /* SpotifyWebViewController.h */,
+				48F64A9A16E222E5003CC64C /* SpotifyWebViewController.m */,
+				48F64AA216E2B1B9003CC64C /* QuizViewController.h */,
+				48F64AA316E2B1BA003CC64C /* QuizViewController.m */,
 				48F64A3F16DEA1A9003CC64C /* DetailViewController.h */,
 				48F64A4016DEA1A9003CC64C /* DetailViewController.m */,
-				48F64A2816DEA1A8003CC64C /* Supporting Files */,
 			);
 			path = stb;
 			sourceTree = "<group>";
@@ -276,6 +294,8 @@
 				48F64A7316E00522003CC64C /* icon-plus@2x.png */,
 				48F64A7416E00522003CC64C /* icon-star.png */,
 				48F64A7516E00522003CC64C /* icon-star@2x.png */,
+				48F64A9E16E2B08A003CC64C /* game2.png */,
+				48F64A9F16E2B08A003CC64C /* spotifyLogo.png */,
 			);
 			path = menu;
 			sourceTree = "<group>";
@@ -369,6 +389,8 @@
 				48F64A8116E00522003CC64C /* icon-plus@2x.png in Resources */,
 				48F64A8216E00522003CC64C /* icon-star.png in Resources */,
 				48F64A8316E00522003CC64C /* icon-star@2x.png in Resources */,
+				48F64AA016E2B08B003CC64C /* game2.png in Resources */,
+				48F64AA116E2B08B003CC64C /* spotifyLogo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,6 +432,8 @@
 				48F64A9216E0EFED003CC64C /* Channel.m in Sources */,
 				48F64A9516E0F00E003CC64C /* Event.m in Sources */,
 				48F64A9816E0FFB1003CC64C /* STBClient.m in Sources */,
+				48F64A9B16E222E8003CC64C /* SpotifyWebViewController.m in Sources */,
+				48F64AA416E2B1BE003CC64C /* QuizViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,7 +484,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -485,7 +509,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;

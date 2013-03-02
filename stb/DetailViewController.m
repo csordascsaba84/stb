@@ -9,9 +9,18 @@
 #import "DetailViewController.h"
 #import "PostTableViewCell.h"
 #import "Post.h"
+#import "Channel.h"
+#import "STBClient.h"
+#import "AFHTTPRequestOperation.h"
+#import <MBProgressHUD/MBProgressHUD.h>
+#import "SpotifyWebViewController.h"
+
 
 @interface DetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
+@property (strong, nonatomic) Channel *channelData;
+@property (strong, nonatomic) NSString *twitterQueryString;
+@property (strong, nonatomic) NSMutableArray *events;
 - (void)configureView;
 @end
 
@@ -21,6 +30,16 @@ NSArray *_posts;
 
 __strong UIActivityIndicatorView *_activityIndicatorView;
 }
+
+-(NSMutableArray *)events
+{
+    if(!_events)
+    {
+        _events = [NSMutableArray array];
+    }
+    return _events;
+}
+
 
 #pragma mark - Managing the detail item
 
@@ -43,15 +62,43 @@ __strong UIActivityIndicatorView *_activityIndicatorView;
     // Update the user interface for the detail item.
 
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem description];
+        self.twitterQueryString = self.detailItem.name;
+        //NSLog(@"QueryString: %@", self.twitterQueryString);
+        [self reload:self];
+    }
+    //NSString *channel_id = self.detailItem.channelID;
+    NSTimeInterval MY_EXTRA_TIME = 3600; // 10 Seconds
+    NSDate *futureDate = [[NSDate date] dateByAddingTimeInterval:MY_EXTRA_TIME];
+    
+    NSDictionary *parameters = @{@"source": @"epg", @"filter":[NSString stringWithFormat:@"channel_id-%@~start_time-%%3E%%3D%.0f~stop_time-%%3C%%3D%.0f",self.detailItem.channelID,[[NSDate date] timeIntervalSince1970], [futureDate timeIntervalSince1970]],@"metadata":@"id~name~thumbnail~summary~director~country_of_production~year_of_production~episode_title~episode_number~season_number~part_number"};
+    
+    NSLog(@"parameters: %@", parameters);
+    
+    if (self.detailItem){
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    AFHTTPRequestOperation *operation = [[STBClient sharedClient] HTTPRequestOperationWithRequest:[[STBClient sharedClient] getEPG:parameters] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"request: %@", [[operation.request URL] absoluteString]);
+        NSXMLParser *XMLParser = responseObject;
+        XMLParser.delegate = self;
+        [XMLParser parse];
+
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
+    
+    [operation start];
     }
 }
 
 - (void)reload:(id)sender {
     [_activityIndicatorView startAnimating];
     self.navigationItem.rightBarButtonItem.enabled = NO;
+    NSString *query = [self.twitterQueryString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    [Post globalTimelinePostsWithBlock:^(NSArray *posts, NSError *error) {
+    if(query){
+    [Post globalTimelinePostsWithBlock:query forQuery:^(NSArray *posts, NSError *error) {
         if (error) {
             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil) message:[error localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"OK", nil), nil] show];
         } else {
@@ -61,7 +108,7 @@ __strong UIActivityIndicatorView *_activityIndicatorView;
         
         [_activityIndicatorView stopAnimating];
         self.navigationItem.rightBarButtonItem.enabled = YES;
-    }];
+    }];}
 }
 
 - (void)loadView {
@@ -91,57 +138,27 @@ __strong UIActivityIndicatorView *_activityIndicatorView;
     UIImage *storyMenuItemImage = [UIImage imageNamed:@"bg-menuitem.png"];
     UIImage *storyMenuItemImagePressed = [UIImage imageNamed:@"bg-menuitem-highlighted.png"];
     
-    UIImage *starImage = [UIImage imageNamed:@"icon-star.png"];
-    
     AwesomeMenuItem *starMenuItem1 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
                                                            highlightedImage:storyMenuItemImagePressed
-                                                               ContentImage:starImage
+                                                               ContentImage:[UIImage imageNamed:@"spotifyLogo.png"]
                                                     highlightedContentImage:nil];
     AwesomeMenuItem *starMenuItem2 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
                                                            highlightedImage:storyMenuItemImagePressed
-                                                               ContentImage:starImage
-                                                    highlightedContentImage:nil];
-    AwesomeMenuItem *starMenuItem3 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
-                                                           highlightedImage:storyMenuItemImagePressed
-                                                               ContentImage:starImage
-                                                    highlightedContentImage:nil];
-    AwesomeMenuItem *starMenuItem4 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
-                                                           highlightedImage:storyMenuItemImagePressed
-                                                               ContentImage:starImage
-                                                    highlightedContentImage:nil];
-    AwesomeMenuItem *starMenuItem5 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
-                                                           highlightedImage:storyMenuItemImagePressed
-                                                               ContentImage:starImage
-                                                    highlightedContentImage:nil];
-    AwesomeMenuItem *starMenuItem6 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
-                                                           highlightedImage:storyMenuItemImagePressed
-                                                               ContentImage:starImage
-                                                    highlightedContentImage:nil];
-    AwesomeMenuItem *starMenuItem7 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
-                                                           highlightedImage:storyMenuItemImagePressed
-                                                               ContentImage:starImage
-                                                    highlightedContentImage:nil];
-    AwesomeMenuItem *starMenuItem8 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
-                                                           highlightedImage:storyMenuItemImagePressed
-                                                               ContentImage:starImage
-                                                    highlightedContentImage:nil];
-    AwesomeMenuItem *starMenuItem9 = [[AwesomeMenuItem alloc] initWithImage:storyMenuItemImage
-                                                           highlightedImage:storyMenuItemImagePressed
-                                                               ContentImage:starImage
+                                                               ContentImage:[UIImage imageNamed:@"game2.png"]
                                                     highlightedContentImage:nil];
     
-    NSArray *menus = [NSArray arrayWithObjects:starMenuItem1, starMenuItem2, starMenuItem3, starMenuItem4, starMenuItem5, starMenuItem6, starMenuItem7,starMenuItem8,starMenuItem9, nil];
+    
+    NSArray *menus = [NSArray arrayWithObjects:starMenuItem1, starMenuItem2, nil];
     AwesomeMenu *menu = [[AwesomeMenu alloc] initWithFrame:self.menu.bounds menus:menus];
-    menu.startPoint = CGPointMake(515, 331);
+    menu.startPoint = CGPointMake(380, 650);
 	// customize menu
-	/*
-     menu.rotateAngle = M_PI/3;
+	
+    // menu.rotateAngle = M_PI/3;
      menu.menuWholeAngle = M_PI;
-     menu.timeOffset = 0.2f;
+    // menu.timeOffset = 0.2f;
      menu.farRadius = 180.0f;
      menu.endRadius = 100.0f;
-     menu.nearRadius = 50.0f;
-     */
+//    menu.nearRadius = 50.0f;
 	
     menu.delegate = self;
     [self.view addSubview:menu];
@@ -195,6 +212,62 @@ __strong UIActivityIndicatorView *_activityIndicatorView;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
+#pragma mark - Awsomemenu Delegate
+
+-(void)AwesomeMenu:(AwesomeMenu *)menu didSelectIndex:(NSInteger)idx
+{
+    if (idx == 0) {
+        [self performSegueWithIdentifier:@"showSpotify" sender:self];
+    } else if (idx == 1){
+        [self performSegueWithIdentifier:@"showQuiz" sender:self];
+    }
+
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"showSpotify"]) {
+        SpotifyWebViewController *viewController =  segue.destinationViewController;
+        viewController.query = [NSString stringWithFormat:@"%@+soundtrack",self.currentEvent.name];
+    }
+}
+
+
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict{
+    
+    if ([elementName isEqualToString:@"query_result"]) {
+        [self.events removeAllObjects];
+    }
+    if([elementName isEqualToString:@"event"]){
+            NSLog(@"Event ID: %@", [attributeDict valueForKey:@"id"]);
+            [self.events addObject:[[Event alloc] initEventWithResponse:attributeDict]];
+        }
+    if ([elementName isEqualToString:@"status"]) {
+        NSLog(@"Status code: %@", [attributeDict valueForKey:@"code"]);
+    }
+    
+}
+
+-(void) parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
+{
+    if([elementName isEqualToString:@"query_result"])
+    {
+        
+    }
+}
+
+-(void) parserDidEndDocument:(NSXMLParser *)parser
+{
+    self.currentEvent = [self.events objectAtIndex:0];
+    self.eventTitle.text = self.currentEvent.name;
+    self.eventSummary.text = self.currentEvent.summary;
+    [self.eventImage setImageWithURL:self.currentEvent.thumbnail];
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [self.view setNeedsLayout];
 }
 
 @end

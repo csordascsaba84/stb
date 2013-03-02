@@ -11,5 +11,9 @@
 @interface STBClient : AFHTTPClient
 
 + (STBClient *)sharedClient;
+-(NSMutableURLRequest *) getChannel:(NSDictionary *)pararmeters;
+-(NSMutableURLRequest *) tuneToChannel:(NSDictionary *)parameters;
+-(NSMutableURLRequest *) getCurrentChannel:(NSDictionary *)pararmeters;
+-(NSMutableURLRequest *) getEPG:(NSDictionary *)pararmeters;
 
 @end

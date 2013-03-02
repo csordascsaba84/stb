@@ -27,9 +27,9 @@
 
 #pragma mark -
 
-+ (void)globalTimelinePostsWithBlock:(void (^)(NSArray *posts, NSError *error))block {
-    [[TwitterClient sharedClient] getPath:@"search.json?q=avatar" parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
-        NSLog(@"%@", JSON);
++ (void)globalTimelinePostsWithBlock:(NSString *)query forQuery:(void (^)(NSArray *posts, NSError *error))block {
+    [[TwitterClient sharedClient] getPath:[NSString stringWithFormat:@"search.json?q=%@", query] parameters:nil success:^(AFHTTPRequestOperation *operation, id JSON) {
+        //NSLog(@"%@", JSON);
         NSArray *postsFromResponse = [JSON valueForKeyPath:@"results"];
         NSMutableArray *mutablePosts = [NSMutableArray arrayWithCapacity:[postsFromResponse count]];
         for (NSDictionary *attributes in postsFromResponse) {

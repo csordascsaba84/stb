@@ -12,6 +12,6 @@
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 
-+ (void)globalTimelinePostsWithBlock:(void (^)(NSArray *posts, NSError *error))block;
++ (void)globalTimelinePostsWithBlock:(NSString *)query forQuery:(void (^)(NSArray *posts, NSError *error))block;
 
 @end

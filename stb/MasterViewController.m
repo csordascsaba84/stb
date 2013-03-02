@@ -12,12 +12,17 @@
 #import "ChannelsCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "Channel.h"
-
+#import <MBProgressHUD/MBProgressHUD.h>
+#import "STBClient.h"
 #import "DetailViewController.h"
+#import "STBClient.h"
 
 @interface MasterViewController () {
     NSMutableArray *_objects;
+
 }
+
+@property (nonatomic, strong) NSString  *currentChannel;
 @end
 
 @implementation MasterViewController
@@ -35,14 +40,14 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
-    [self stubNetworkRequest];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //[self stubNetworkRequest];
     [self getChannelList];
     
 }
 
 -(void) stubNetworkRequest
 {
-    
     [OHHTTPStubs shouldStubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         if ([request.URL.absoluteString.lastPathComponent.pathExtension isEqualToString:@"xml"]){
             return YES;
@@ -56,18 +61,16 @@
 }
 
 -(void)getChannelList
-{
-    NSURL *url = [NSURL URLWithString:@"http://httpbin.org/ip.xml"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    
-    AFXMLRequestOperation *operation = [AFXMLRequestOperation XMLParserRequestOperationWithRequest:request
-                            success:^(NSURLRequest *request, NSHTTPURLResponse *response, NSXMLParser *XMLParser) {
-                                NSLog(@"response: %@", response);
-                                XMLParser.delegate = self;
-                                [XMLParser parse];
-                            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, NSXMLParser *XMLParser) {
-                                NSLog(@"Error: %@", error);
-                            }];
+{   
+    NSDictionary *parameters = @{@"source":@"channels"};
+    AFHTTPRequestOperation *operation = [[STBClient sharedClient] HTTPRequestOperationWithRequest:[[STBClient sharedClient]getChannel:parameters] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //NSLog(@"response: %@", [responseObject class]);
+        NSXMLParser *XMLParser = responseObject;
+        XMLParser.delegate = self;
+        [XMLParser parse];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
     [operation start];
 }
 
@@ -80,14 +83,65 @@
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict{
 
     if([elementName isEqualToString:@"channel"]){
-        Channel *channel = [[Channel alloc] initWithAttributes:attributeDict];
-        [_objects addObject:channel];
+        if ([[attributeDict valueForKey:@"online_epg"] isEqualToString:@"true"]) {
+            Channel *channel = [[Channel alloc] initWithAttributes:attributeDict];
+            [_objects addObject:channel];
+            self.currentChannel = [attributeDict valueForKey:@"id"];
+            NSLog(@"Channel ID: %@", [attributeDict valueForKey:@"id"]);
+        }
+    }
+    if ([elementName isEqualToString:@"status"]) {
+        NSLog(@"Status code: %@", [attributeDict valueForKey:@"code"]);
+    }
+    
+}
+
+-(void) parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
+{
+    if([elementName isEqualToString:@"query_result"])
+    {
+        [self getCurrentChannel];
+        
+    }
+    if ([elementName isEqualToString:@"current_channel_result"]) {
+        [self.tableView reloadData];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        
+        NSUInteger barIndex = [_objects indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            if ([[(Channel *)obj channelID] isEqualToString:self.currentChannel]) {
+                *stop = YES;
+                return YES;
+            }
+            return NO;
+        }];
+        
+        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:barIndex inSection:0]
+                               animated:NO
+                         scrollPosition:UITableViewScrollPositionMiddle];
     }
 }
 
 -(void) parserDidEndDocument:(NSXMLParser *)parser
 {
-    [self.tableView reloadData];
+
+
+}
+
+-(void) getCurrentChannel
+{
+    NSLog(@"Current channel called");
+    AFHTTPRequestOperation *operation = [[STBClient sharedClient] HTTPRequestOperationWithRequest: [[STBClient sharedClient] getCurrentChannel:nil] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSXMLParser *XMLParser = responseObject;
+        XMLParser.delegate = self;
+        [XMLParser parse];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
+    
+    [operation start];
+
 }
 
 #pragma mark - Table View
@@ -104,14 +158,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ChannelsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    NSLog(@"%@", [[_objects objectAtIndex:indexPath.row] valueForKey:@"name"]);
+    __block ChannelsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    //NSLog(@"%@", [[_objects objectAtIndex:indexPath.row] valueForKey:@"name"]);
     
     Channel *channel = [_objects objectAtIndex:indexPath.row];
     
     cell.channelName.text = channel.name;
+    NSLog(@"%@ Is hidden: %@", channel.name, channel.hidden? @"true":@"false");
     [cell.channelLogo setImageWithURL:channel.logo placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
-    
     return cell;
 }
 
@@ -133,8 +187,21 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDate *object = _objects[indexPath.row];
+    Channel *object = _objects[indexPath.row];
+    NSLog(@"%@", object.channelID);
+    NSDictionary *parameters = @{@"channel_id":[NSString stringWithFormat:@"%@", object.channelID]};
+    AFHTTPRequestOperation *operation = [[STBClient sharedClient] HTTPRequestOperationWithRequest:[[STBClient sharedClient]tuneToChannel:parameters] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"request: %@", [[operation.request URL] absoluteString]);
+        NSXMLParser *XMLParser = responseObject;
+        XMLParser.delegate = self;
+        [XMLParser parse];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
+    [operation start];
+    
     self.detailViewController.detailItem = object;
 }
+
 
 @end
