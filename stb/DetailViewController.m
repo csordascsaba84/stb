@@ -14,6 +14,7 @@
 #import "AFHTTPRequestOperation.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "SpotifyWebViewController.h"
+#import <Twitter/Twitter.h>
 
 
 @interface DetailViewController ()
@@ -64,38 +65,62 @@ __strong UIActivityIndicatorView *_activityIndicatorView;
     if (self.detailItem) {
         self.twitterQueryString = self.detailItem.name;
         //NSLog(@"QueryString: %@", self.twitterQueryString);
-        [self reload:self];
+        //[self reload:nil];
     }
-    //NSString *channel_id = self.detailItem.channelID;
-    NSTimeInterval MY_EXTRA_TIME = 3600; // 10 Seconds
-    NSDate *futureDate = [[NSDate date] dateByAddingTimeInterval:MY_EXTRA_TIME];
     
-    NSDictionary *parameters = @{@"source": @"epg", @"filter":[NSString stringWithFormat:@"channel_id-%@~start_time-%%3E%%3D%.0f~stop_time-%%3C%%3D%.0f",self.detailItem.channelID,[[NSDate date] timeIntervalSince1970], [futureDate timeIntervalSince1970]],@"metadata":@"id~name~thumbnail~summary~director~country_of_production~year_of_production~episode_title~episode_number~season_number~part_number"};
-    
-    NSLog(@"parameters: %@", parameters);
-    
-    if (self.detailItem){
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    AFHTTPRequestOperation *operation = [[STBClient sharedClient] HTTPRequestOperationWithRequest:[[STBClient sharedClient] getEPG:parameters] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    if ([self.detailItem.channelID isEqualToString:@"reply"]) {
+        Event *replyEvent = [[Event alloc] init];
+        replyEvent.name = @"ReplyHackathon";
+        self.currentEvent = replyEvent;
+        self.eventTitle.text = @"ViewTV Demo Channel";
+        self.eventSummary.text = @"";
+        self.eventImage.image = nil;
         
-        NSLog(@"request: %@", [[operation.request URL] absoluteString]);
-        NSXMLParser *XMLParser = responseObject;
-        XMLParser.delegate = self;
-        [XMLParser parse];
-
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-    }];
-    
-    [operation start];
+//        NSString *filepath   =   [[NSBundle mainBundle] pathForResource:@"video2" ofType:@"m4v"];
+//        NSURL    *fileURL    =   [NSURL fileURLWithPath:filepath];
+//        MPMoviePlayerController *moviePlayerController = [[MPMoviePlayerController alloc] initWithContentURL:fileURL];
+//        [self.view addSubview:moviePlayerController.view];
+//        moviePlayerController.fullscreen = YES;
+//    //    [moviePlayerController play];
+        
+        [self reload:nil];
+    }
+    else{
+        //NSString *channel_id = self.detailItem.channelID;
+        NSTimeInterval MY_EXTRA_TIME = 3600; // 10 Seconds
+        NSDate *futureDate = [[NSDate date] dateByAddingTimeInterval:MY_EXTRA_TIME];
+        
+        NSDictionary *parameters = @{@"source": @"epg", @"filter":[NSString stringWithFormat:@"channel_id-%@~start_time-%%3E%%3D%.0f~stop_time-%%3C%%3D%.0f",self.detailItem.channelID,[[NSDate date] timeIntervalSince1970], [futureDate timeIntervalSince1970]],@"metadata":@"id~name~thumbnail~summary~director~country_of_production~year_of_production~episode_title~episode_number~season_number~part_number"};
+        
+        NSLog(@"parameters: %@", parameters);
+        
+        if (self.detailItem){
+            
+            AFHTTPRequestOperation *operation = [[STBClient sharedClient] HTTPRequestOperationWithRequest:[[STBClient sharedClient] getEPG:parameters] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                NSLog(@"request: %@", [[operation.request URL] absoluteString]);
+                NSXMLParser *XMLParser = responseObject;
+                XMLParser.delegate = self;
+                [XMLParser parse];
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"Error: %@", error);
+            }];
+            
+            [operation start];
+        }
     }
 }
 
 - (void)reload:(id)sender {
+    [self.tableView reloadData];
     [_activityIndicatorView startAnimating];
     self.navigationItem.rightBarButtonItem.enabled = NO;
-    NSString *query = [self.twitterQueryString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    //NSString *query = [self.twitterQueryString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"Current event name: %@", self.currentEvent.name);
+    NSString *query = [self.currentEvent.name stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+//    NSString *query = [self.currentEvent.name stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"Query: %@", query);
     
     if(query){
     [Post globalTimelinePostsWithBlock:query forQuery:^(NSArray *posts, NSError *error) {
@@ -123,14 +148,12 @@ __strong UIActivityIndicatorView *_activityIndicatorView;
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_activityIndicatorView];
+    //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_activityIndicatorView];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reload:)];
 
     self.tableView.rowHeight = 70.0f;
     
     [self addMenu];
-    
-    [self reload:nil];
 }
 
 -(void)addMenu
@@ -231,7 +254,13 @@ __strong UIActivityIndicatorView *_activityIndicatorView;
 {
     if ([segue.identifier isEqualToString:@"showSpotify"]) {
         SpotifyWebViewController *viewController =  segue.destinationViewController;
-        viewController.query = [NSString stringWithFormat:@"%@+soundtrack",self.currentEvent.name];
+        if ([self.currentEvent.name isEqualToString:@"ReplyHackathon"]) {
+                viewController.query = @"the+muse+resistance";
+        }
+        else {
+                viewController.query = [NSString stringWithFormat:@"%99@",self.currentEvent.name];
+        }
+
     }
 }
 
@@ -266,8 +295,28 @@ __strong UIActivityIndicatorView *_activityIndicatorView;
     self.eventTitle.text = self.currentEvent.name;
     self.eventSummary.text = self.currentEvent.summary;
     [self.eventImage setImageWithURL:self.currentEvent.thumbnail];
+    NSLog(@"Current event name: %@", self.currentEvent.name);
+    [self reload:nil];
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     [self.view setNeedsLayout];
 }
 
+- (IBAction)tweet:(UIBarButtonItem *)sender {
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+    {
+        SLComposeViewController *tweetSheet = [SLComposeViewController    composeViewControllerForServiceType:SLServiceTypeTwitter];
+        [tweetSheet setInitialText:@"#replyhackathon"];
+        [self presentViewController:tweetSheet animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Error"
+                                  message:@"please setup Twitter"
+                                  delegate:self
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+}
 @end

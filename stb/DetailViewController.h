@@ -12,10 +12,13 @@
 #import "Channel.h"
 #import "Event.h"
 #import "UIImageView+AFNetworking.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface DetailViewController : UIViewController <UISplitViewControllerDelegate, UITableViewDelegate, UITableViewDataSource, AwesomeMenuDelegate, NSXMLParserDelegate>
 
+- (IBAction)tweet:(UIBarButtonItem *)sender;
 @property (strong, nonatomic) Channel *detailItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *sendTweet;
 
 @property (weak, nonatomic) IBOutlet UIView *menu;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;

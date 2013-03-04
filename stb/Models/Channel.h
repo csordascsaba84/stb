@@ -10,15 +10,15 @@
 
 @interface Channel : NSObject
 
-@property (readonly) NSString *channelID;
-@property (readonly) NSString *name;
-@property (readonly) NSUInteger logical_channel_number;
+@property (nonatomic, strong) NSString *channelID;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic) NSUInteger logical_channel_number;
 @property (readonly) BOOL online_epg;
 @property (readonly) BOOL hidden;
 @property (readonly) BOOL locked;
 @property (nonatomic) BOOL record_status;
 @property (readonly) NSUInteger schedule_id;
-@property (readonly) NSURL *logo;
+@property (nonatomic, strong) NSURL *logo;
 
 -(id) initWithAttributes:(NSDictionary *)attributes;
 

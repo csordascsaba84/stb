@@ -13,14 +13,14 @@ NSString * const kChannelImageDidLoadNotification = @"eu.reply.channel.image.loa
 
 @interface Channel ()
 
-@property (readwrite) NSString *channelID;
-@property (readwrite) NSString *name;
-@property (readwrite) NSUInteger logical_channel_number;
+//@property (readwrite) NSString *channelID;
+//@property (readwrite) NSString *name;
+//@property (readwrite) NSUInteger logical_channel_number;
 @property (readwrite) BOOL online_epg;
 @property (readwrite) BOOL hidden;
 @property (readwrite) BOOL locked;
 @property (readwrite) NSUInteger schedule_id;
-@property (readwrite) NSURL *logo;
+//@property (readwrite) NSURL *logo;
 
 @end
 

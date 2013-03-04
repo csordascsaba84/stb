@@ -11,7 +11,8 @@
 
 @implementation STBClient
 
-//static NSString * const kSTBAPIBaseURLString = @"http://192.168.0.100";
+//static NSString * const kSTBAPIBaseURLString = @"http://172.20.10.5";
+//static NSString * const kSTBAPIBaseURLString = @"http://192.168.0.103";
 static NSString * const kSTBAPIBaseURLString = @"http://192.168.43.75";
 
 +(STBClient *)sharedClient

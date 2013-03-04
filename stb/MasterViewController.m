@@ -89,6 +89,7 @@
             self.currentChannel = [attributeDict valueForKey:@"id"];
             NSLog(@"Channel ID: %@", [attributeDict valueForKey:@"id"]);
         }
+        self.currentChannel = [attributeDict valueForKey:@"id"];
     }
     if ([elementName isEqualToString:@"status"]) {
         NSLog(@"Status code: %@", [attributeDict valueForKey:@"code"]);
@@ -101,7 +102,13 @@
     if([elementName isEqualToString:@"query_result"])
     {
         [self getCurrentChannel];
+        Channel *replyChannel  = [[Channel alloc] init];
+        replyChannel.channelID = @"reply";
+        replyChannel.name = @"ViewTV Demo";
+        replyChannel.logical_channel_number = 999;
+        replyChannel.logo = [[NSBundle mainBundle] URLForResource:@"replyLogo2" withExtension:@"png"];
         
+        [_objects addObject:replyChannel];
     }
     if ([elementName isEqualToString:@"current_channel_result"]) {
         [self.tableView reloadData];
@@ -118,12 +125,13 @@
         [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:barIndex inSection:0]
                                animated:NO
                          scrollPosition:UITableViewScrollPositionMiddle];
+        self.detailViewController.detailItem = [_objects objectAtIndex:barIndex];
+        
     }
 }
 
 -(void) parserDidEndDocument:(NSXMLParser *)parser
 {
-
 
 }
 
@@ -189,18 +197,24 @@
 {
     Channel *object = _objects[indexPath.row];
     NSLog(@"%@", object.channelID);
-    NSDictionary *parameters = @{@"channel_id":[NSString stringWithFormat:@"%@", object.channelID]};
-    AFHTTPRequestOperation *operation = [[STBClient sharedClient] HTTPRequestOperationWithRequest:[[STBClient sharedClient]tuneToChannel:parameters] success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"request: %@", [[operation.request URL] absoluteString]);
-        NSXMLParser *XMLParser = responseObject;
-        XMLParser.delegate = self;
-        [XMLParser parse];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-    }];
-    [operation start];
     
-    self.detailViewController.detailItem = object;
+    if ([object.channelID isEqualToString:@"reply"]) {
+        self.detailViewController.detailItem = object;
+    }
+    else{
+        NSDictionary *parameters = @{@"channel_id":[NSString stringWithFormat:@"%@", object.channelID]};
+        AFHTTPRequestOperation *operation = [[STBClient sharedClient] HTTPRequestOperationWithRequest:[[STBClient sharedClient]tuneToChannel:parameters] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSLog(@"request: %@", [[operation.request URL] absoluteString]);
+            NSXMLParser *XMLParser = responseObject;
+            XMLParser.delegate = self;
+            [XMLParser parse];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        }];
+        [operation start];
+    
+        self.detailViewController.detailItem = object;
+    }
 }
 
 

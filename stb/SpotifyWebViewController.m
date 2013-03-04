@@ -18,6 +18,11 @@
 - (void)viewDidLoad
 {
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: [NSString stringWithFormat: @"http://192.168.43.218:8080/ViewTV/album.jsp?q=%@",[self.query stringByReplacingOccurrencesOfString:@" " withString:@"+"] ]]];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: [NSString stringWithFormat: @"http://172.20.10.4:8080/ViewTV/album.jsp?q=%@",[self.query stringByReplacingOccurrencesOfString:@" " withString:@"+"] ]]];
+  
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: [NSString stringWithFormat: @"http://172.20.10.4:8080/ViewTV/album.jsp?q=avatar"]]];
+    
+    
     NSLog(@"%@",[request.URL absoluteString]);
     //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self.webView loadRequest:request];

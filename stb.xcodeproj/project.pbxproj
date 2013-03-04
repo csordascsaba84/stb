@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		305C6E8287E049E0B6A214E0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A13D036B8CC410C90FAFE06 /* libPods.a */; };
+		48721C0716E35ECE0005825B /* video2.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 48721C0616E35ECE0005825B /* video2.m4v */; };
+		4892F9C916E342C80011BC3C /* replyLogo2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4892F9C816E342C80011BC3C /* replyLogo2.png */; };
+		4892F9CD16E359F90011BC3C /* icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4892F9CC16E359F90011BC3C /* icon2.png */; };
+		4892F9CF16E35A090011BC3C /* icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4892F9CE16E35A090011BC3C /* icon2.png */; };
+		4892F9D316E35DAC0011BC3C /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4892F9D216E35DAC0011BC3C /* MediaPlayer.framework */; };
 		48F64A2216DEA1A8003CC64C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48F64A2116DEA1A8003CC64C /* UIKit.framework */; };
 		48F64A2416DEA1A8003CC64C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48F64A2316DEA1A8003CC64C /* Foundation.framework */; };
 		48F64A2616DEA1A8003CC64C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48F64A2516DEA1A8003CC64C /* CoreGraphics.framework */; };
@@ -61,6 +66,11 @@
 
 /* Begin PBXFileReference section */
 		2A13D036B8CC410C90FAFE06 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		48721C0616E35ECE0005825B /* video2.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; name = video2.m4v; path = /Users/csabacsordas/Development/TelcoHackathon/stb/stb/images/video2.m4v; sourceTree = "<absolute>"; };
+		4892F9C816E342C80011BC3C /* replyLogo2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = replyLogo2.png; sourceTree = "<group>"; };
+		4892F9CC16E359F90011BC3C /* icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon2.png; sourceTree = "<group>"; };
+		4892F9CE16E35A090011BC3C /* icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon2.png; sourceTree = "<group>"; };
+		4892F9D216E35DAC0011BC3C /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		48F64A1E16DEA1A8003CC64C /* stb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = stb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48F64A2116DEA1A8003CC64C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		48F64A2316DEA1A8003CC64C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -136,6 +146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4892F9D316E35DAC0011BC3C /* MediaPlayer.framework in Frameworks */,
 				48F64A9D16E26E0E003CC64C /* Social.framework in Frameworks */,
 				48F64A8C16E00675003CC64C /* QuartzCore.framework in Frameworks */,
 				48F64A2216DEA1A8003CC64C /* UIKit.framework in Frameworks */,
@@ -151,6 +162,8 @@
 		48F64A1516DEA1A8003CC64C = {
 			isa = PBXGroup;
 			children = (
+				4892F9D216E35DAC0011BC3C /* MediaPlayer.framework */,
+				4892F9CE16E35A090011BC3C /* icon2.png */,
 				48F64A2716DEA1A8003CC64C /* stb */,
 				48F64A2016DEA1A8003CC64C /* Frameworks */,
 				48F64A1F16DEA1A8003CC64C /* Products */,
@@ -270,6 +283,9 @@
 		48F64A6116E001CE003CC64C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				48721C0616E35ECE0005825B /* video2.m4v */,
+				4892F9CC16E359F90011BC3C /* icon2.png */,
+				4892F9C816E342C80011BC3C /* replyLogo2.png */,
 				48F64A6716E00522003CC64C /* menu */,
 				48F64A6216E001D9003CC64C /* profile-image-placeholder.png */,
 				48F64A6316E001D9003CC64C /* profile-image-placeholder@2x.png */,
@@ -391,6 +407,10 @@
 				48F64A8316E00522003CC64C /* icon-star@2x.png in Resources */,
 				48F64AA016E2B08B003CC64C /* game2.png in Resources */,
 				48F64AA116E2B08B003CC64C /* spotifyLogo.png in Resources */,
+				4892F9C916E342C80011BC3C /* replyLogo2.png in Resources */,
+				4892F9CD16E359F90011BC3C /* icon2.png in Resources */,
+				4892F9CF16E35A090011BC3C /* icon2.png in Resources */,
+				48721C0716E35ECE0005825B /* video2.m4v in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
